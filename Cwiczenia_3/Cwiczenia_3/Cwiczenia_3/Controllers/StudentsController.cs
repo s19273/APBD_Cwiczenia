@@ -12,9 +12,9 @@ namespace Cwiczenia_3.Controllers
     public class StudentsController : ControllerBase
     {
         [HttpGet]
-        public string GetStudent()
+        public string GetStudent(string orderBy)
         {
-            return "Kowalski, Malewski, Andrzejewski";
+            return $"Kowalski, Malewski, Andrzejewski sortowanie={orderBy}";
         }
 
         [HttpGet("{id}")]

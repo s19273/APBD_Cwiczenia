@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Cwiczenia_3_4_5</AssemblyName>
+    <RootNamespace>Cwiczenia_3_4_5</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

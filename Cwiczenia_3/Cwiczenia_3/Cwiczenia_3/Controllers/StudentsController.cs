@@ -44,42 +44,69 @@ namespace Cwiczenia_3.Controllers
             return Ok(list);
         }
 
-        private readonly IDbService _dbService;
-
-        public StudentsController(IDbService dbService)
+        [HttpGet("{indexNumber}")]
+        public IActionResult GetStudent(string indexNumber)
         {
-            _dbService = dbService;
-        }
 
-        [HttpGet]
-        public string GetStudent(string orderBy)
-        {
-            return $"Kowalski, Malewski, Andrzejewski sortowanie={orderBy}";
-        }
-
-        [HttpGet("{id}")]
-
-        public IActionResult GetStudent(int id)
-        {
-            if (id == 1)
+            using (var con = new SqlConnection(ConString))
+            using (SqlCommand com = new SqlCommand())
             {
-                return Ok("Kowalski");
-            }
-            else if (id == 2)
-            {
-                return Ok("Malewski");
-            }
+                com.Connection = con;
 
-            return NotFound("Nie znaleziono studenta");
+                com.CommandText = "select IndexNumber, FirstName, LastName, BirthDate, Studies.Name,Semester, StartDate  from Student, Studies, Enrollment where Enrollment.IdEnrollment=Student.IdEnrollment and Studies.IdStudy=Enrollment.IdStudy and IndexNumber='" + indexNumber + "';";
+
+                con.Open();
+                SqlDataReader dr = com.ExecuteReader();
+                if (dr.Read())
+                {
+                    var st = new Student();
+                    st.FirstName = dr["FirstName"].ToString();
+                    st.LastName = dr["LastName"].ToString();
+                    st.BirthDate = dr["BirthDate"].ToString();
+                    st.Study = dr["Name"].ToString();
+                    st.Semester = dr["Semester"].ToString();
+                    return Ok(st);
+                }
+            }
+            return NotFound();
         }
 
-        [HttpPost]
+        //private readonly IDbService _dbService;
+        //
+        //public StudentsController(IDbService dbService)
+        //{
+        //    _dbService = dbService;
+        //}
 
-        public IActionResult CreateStudent(Models.Student student)
-        {
-            student.IndexNumber = $"s{new Random().Next(1, 20000)}";
-            return Ok(student);
-        }
+        //[HttpGet]
+        //public string GetStudent(string orderBy)
+        //{
+        //    return $"Kowalski, Malewski, Andrzejewski sortowanie={orderBy}";
+        //}
+        //
+        //[HttpGet("{id}")]
+        //
+        //public IActionResult GetStudent(int id)
+        //{
+        //    if (id == 1)
+        //    {
+        //        return Ok("Kowalski");
+        //    }
+        //    else if (id == 2)
+        //    {
+        //        return Ok("Malewski");
+        //    }
+        //
+        //    return NotFound("Nie znaleziono studenta");
+        //}
+
+        //[HttpPost]
+
+        //public IActionResult CreateStudent(Models.Student student)
+        //{
+        //    student.IndexNumber = $"s{new Random().Next(1, 20000)}";
+        //    return Ok(student);
+        //}
 
 
     }

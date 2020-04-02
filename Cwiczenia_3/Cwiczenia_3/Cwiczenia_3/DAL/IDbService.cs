@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cwiczenia_3.Models;
 
 namespace Cwiczenia_3.DAL
 {
-    interface IDbService
+    public interface IDbService
     {
+        public IEnumerable<Student> GetStudents();
     }
 }

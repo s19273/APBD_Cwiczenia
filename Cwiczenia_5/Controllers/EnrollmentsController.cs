@@ -1,16 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Cwiczenia_5.DTO.Request;
+using Cwiczenia_5.DTO.Response;
+using Cwiczenia_5.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cwiczenia_5.Controllers
 {
-    public class EnrollmentsController : Controller
+    [Route("api/enrollments")]
+    [ApiController]
+    public class EnrollmentsController : ControllerBase
     {
-        public IActionResult Index()
+        private IStudentDbService _service;
+
+        public EnrollmentsController(IStudentDbService service)
         {
-            return View();
+            _service = service;
         }
+
+
+        [HttpPost]
+        public IActionResult EnrollStudent(EnrollStudentRequest request)
+        {
+            _service.EnrollStudent(request);
+            var response = new EnrollStudentResponse();
+
+            return Ok(response);
+        }
+
     }
 }

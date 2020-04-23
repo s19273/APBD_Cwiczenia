@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 
 namespace Kolokwium1.Models
 {
-    public class Prescription
+    public class PrescriptionRequest
     {
-        public int IdPrescription { get; set; }
+        [Required]
         public string Date { get; set; }
+        [Required]
         public string DueDate { get; set; }
-        public string PatientLastName { get; set; }
-        public string DoctorLastName { get; set; }
+        [Required]
+        public int IdPatient { get; set; }
+        [Required]
+        public int IdDoctor { get; set; }
     }
 }
